@@ -1,0 +1,27 @@
+# OS
+.DS_Store
+
+# Ignore Docker-specific files and directories
+.dockerenv
+.Dockerfile
+.dockerignore
+
+# Ignore folder structure
+open-webui/*
+!open-webui/.gitkeep
+searxng/*
+!searxng/settings.yml
+
+# Ignore container logs
+logs/
+
+# Ignore volumes
+volumes/
+
+# Ignore build artifacts
+target/
+build/
+
+# Ignore .env files
+.env
+docker-compose.env
