@@ -53,7 +53,7 @@ docker-compose up -d
 
 ### 7. Access the Application
 
-Open your browser and navigate to [http://chat.localhost](http://chat.local).
+Open your browser and navigate to [http://chat.localhost](http://chat.localhost).
 
 You should now have access to the Open Web UI running locally on your Mac.
 
