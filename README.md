@@ -1,6 +1,6 @@
 # Local AI for macOS
 
-This project sets up a local AI environment on your Mac, utilizing Apple Silicon GPUs for optimal performance. You'll use Homebrew to install Ollama, pull a model, and Docker to run the Open Web UI and SearXNG for enhanced functionality.
+This project sets up a simple local AI environment on your Mac, utilizing Apple Silicon GPUs for optimal performance. You'll use Homebrew to install Ollama, pull a model, and Docker to run the Open Web UI and SearXNG for enhanced functionality.
 
 ## Prerequisites
 
@@ -53,7 +53,7 @@ docker-compose up -d
 
 ### 7. Access the Application
 
-Open your browser and navigate to [http://chat.local](http://chat.local).
+Open your browser and navigate to [http://chat.localhost](http://chat.local).
 
 You should now have access to the Open Web UI running locally on your Mac.
 
@@ -68,7 +68,7 @@ Ensure Docker Desktop is running before executing the Docker Compose command. If
 
 - **Docker Desktop Issues**: Make sure Docker Desktop is running and you have granted necessary permissions. Adjust resource limits in the settings.
 - **Model Pull Issues**: Ensure you have a stable internet connection while pulling the model using Ollama.
-- **Network Issues**: If you can't access `http://chat.local`, verify your Docker network settings and ensure no other services are conflicting with port 80.
+- **Network Issues**: If you can't access `http://chat.localhost`, verify your Docker network settings and ensure no other services are conflicting with port 80.
 
 Feel free to open an issue on this GitHub repository if you encounter any problems not covered in this guide.
 
