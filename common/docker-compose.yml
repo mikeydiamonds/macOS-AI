@@ -1,0 +1,38 @@
+services:
+  # Redis - Shared cache and queue service
+  # Used by: Firecrawl (cache), n8n (queue management)
+  redis:
+    image: redis:alpine
+    container_name: common-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - ./redis_data:/data
+    networks:
+      - traefik
+
+  # PostgreSQL 17 - Shared database service
+  # Databases: firecrawl, n8n, supabase
+  # See init-db.sql for database initialization
+  postgres:
+    image: postgres:17
+    container_name: common-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=postgres
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    networks:
+      - traefik
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  traefik:
+    external: true
