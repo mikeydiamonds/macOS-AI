@@ -1,0 +1,21 @@
+services:
+  # Qdrant - Vector database for embeddings
+  # Accessible at qdrant.localhost
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: qdrant
+    restart: unless-stopped
+    networks:
+      - traefik
+    volumes:
+      # Vector storage persistence
+      - ./storage:/qdrant/storage
+    labels:
+      - "traefik.enable=true"
+      # REST API and Web UI
+      - "traefik.http.routers.qdrant.rule=Host(`qdrant.localhost`)"
+      - "traefik.http.services.qdrant.loadbalancer.server.port=6333"
+
+networks:
+  traefik:
+    external: true

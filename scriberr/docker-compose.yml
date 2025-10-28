@@ -1,0 +1,24 @@
+services:
+  # Scriberr - Audio/video transcription service
+  # Accessible at scriberr.localhost
+  # Note: CPU-based transcription (NVIDIA runtime removed for macOS compatibility)
+  scriberr:
+    image: ghcr.io/rishikanthc/scriberr:latest
+    container_name: scriberr
+    restart: unless-stopped
+    networks:
+      - traefik
+    environment:
+      # Optional: Increase body size limit for large media files
+      - BODY_SIZE_LIMIT=${BODY_SIZE_LIMIT:-10G}
+    volumes:
+      # Persist database and transcription files
+      - ./data:/app/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.scriberr.rule=Host(`scriberr.localhost`)"
+      - "traefik.http.services.scriberr.loadbalancer.server.port=8080"
+
+networks:
+  traefik:
+    external: true

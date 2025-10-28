@@ -128,16 +128,16 @@
   - [x] 5.9 Configure n8n Traefik labels for `n8n.localhost` domain
   - [x] 5.10 Test n8n and worker services with PostgreSQL and Redis connections
 
-- [ ] 6.0 Create Vector Database and Transcription Services
-  - [ ] 6.1 Create `qdrant/docker-compose.yml` with Qdrant image and storage persistence
-  - [ ] 6.2 Create `qdrant/.env.example` with optional configuration
-  - [ ] 6.3 Configure Qdrant Traefik labels for `qdrant.localhost` domain (REST API and Web UI)
-  - [ ] 6.4 Create `scriberr/docker-compose.yml` with Scriberr image (remove NVIDIA runtime for macOS)
-  - [ ] 6.5 Create `scriberr/.env.example` with configuration options
-  - [ ] 6.6 Configure Scriberr for CPU-based transcription without GPU dependencies
-  - [ ] 6.7 Configure Scriberr Traefik labels for `scriberr.localhost` domain
-  - [ ] 6.8 Test Qdrant API access and web UI
-  - [ ] 6.9 Test Scriberr transcription functionality
+- [x] 6.0 Create Vector Database and Transcription Services
+  - [x] 6.1 Create `qdrant/docker-compose.yml` with Qdrant image and storage persistence
+  - [x] 6.2 Create `qdrant/.env.example` with optional configuration
+  - [x] 6.3 Configure Qdrant Traefik labels for `qdrant.localhost` domain (REST API and Web UI)
+  - [x] 6.4 Create `scriberr/docker-compose.yml` with Scriberr image (remove NVIDIA runtime for macOS)
+  - [x] 6.5 Create `scriberr/.env.example` with configuration options
+  - [x] 6.6 Configure Scriberr for CPU-based transcription without GPU dependencies
+  - [x] 6.7 Configure Scriberr Traefik labels for `scriberr.localhost` domain
+  - [x] 6.8 Test Qdrant API access and web UI
+  - [x] 6.9 Test Scriberr transcription functionality
 
 - [ ] 7.0 Create Supabase Backend Platform
   - [ ] 7.1 Create `supabase/docker-compose.yml` with Studio, Kong, GoTrue, PostgREST, Storage, and Realtime services
