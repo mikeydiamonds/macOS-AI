@@ -116,17 +116,17 @@
   - [x] 4.12 Configure Firecrawl Traefik labels for `firecrawl.localhost` domain
   - [x] 4.13 Test Crawl4ai, Docling, and Firecrawl services with Ollama integration
 
-- [ ] 5.0 Create Workflow Automation and AI Services
-  - [ ] 5.1 Create `n8n/docker-compose.yml` with main n8n service and n8n-worker service
-  - [ ] 5.2 Create `n8n/.env.example` with PostgreSQL, Redis, Ollama, webhook URL, and worker configuration
-  - [ ] 5.3 Configure n8n database connection to common-postgres with n8n database
-  - [ ] 5.4 Configure n8n Redis connection to common-redis for queue management
-  - [ ] 5.5 Enable n8n community packages and AI tool usage (N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE=true)
-  - [ ] 5.6 Disable n8n authentication for local-only setup
-  - [ ] 5.7 Configure n8n webhook URL as https://n8n.localhost
-  - [ ] 5.8 Configure n8n worker with same database/Redis connections
-  - [ ] 5.9 Configure n8n Traefik labels for `n8n.localhost` domain
-  - [ ] 5.10 Test n8n and worker services with PostgreSQL and Redis connections
+- [x] 5.0 Create Workflow Automation and AI Services
+  - [x] 5.1 Create `n8n/docker-compose.yml` with main n8n service and n8n-worker service
+  - [x] 5.2 Create `n8n/.env.example` with PostgreSQL, Redis, Ollama, webhook URL, and worker configuration
+  - [x] 5.3 Configure n8n database connection to common-postgres with n8n database
+  - [x] 5.4 Configure n8n Redis connection to common-redis for queue management
+  - [x] 5.5 Enable n8n community packages and AI tool usage (N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE=true)
+  - [x] 5.6 Disable n8n authentication for local-only setup
+  - [x] 5.7 Configure n8n webhook URL as http://n8n.localhost
+  - [x] 5.8 Configure n8n worker with same database/Redis connections
+  - [x] 5.9 Configure n8n Traefik labels for `n8n.localhost` domain
+  - [x] 5.10 Test n8n and worker services with PostgreSQL and Redis connections
 
 - [ ] 6.0 Create Vector Database and Transcription Services
   - [ ] 6.1 Create `qdrant/docker-compose.yml` with Qdrant image and storage persistence

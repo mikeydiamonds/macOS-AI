@@ -1,0 +1,112 @@
+services:
+  # n8n - Workflow automation platform with AI capabilities
+  # Accessible at n8n.localhost
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    container_name: n8n
+    restart: unless-stopped
+    networks:
+      - traefik
+    environment:
+      # Authentication (disabled for local-only setup)
+      - N8N_BASIC_AUTH_ACTIVE=${N8N_BASIC_AUTH_ACTIVE}
+
+      # Network configuration
+      - N8N_HOST=${N8N_HOST}
+      - N8N_PORT=5678
+      - WEBHOOK_URL=${WEBHOOK_URL}
+      - N8N_PROTOCOL=http
+
+      # Timezone
+      - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
+      - TZ=${TZ}
+
+      # Security
+      - N8N_USER_FOLDER=/home/node/.n8n
+      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+      - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}
+
+      # Execution settings
+      - NODE_FUNCTION_ALLOW_EXTERNAL=${NODE_FUNCTION_ALLOW_EXTERNAL}
+      - N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE=${N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE}
+      - N8N_EXECUTIONS_PROCESS=own
+      - N8N_AGENT_MAX_LOOP_ITERATIONS=${N8N_AGENT_MAX_LOOP_ITERATIONS}
+
+      # Queue mode for worker architecture
+      - EXECUTIONS_MODE=queue
+
+      # PostgreSQL database connection (common-postgres)
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=common-postgres
+      - DB_POSTGRESDB_PORT=5432
+      - DB_POSTGRESDB_DATABASE=n8n
+      - DB_POSTGRESDB_USER=${POSTGRES_USER}
+      - DB_POSTGRESDB_PASSWORD=${POSTGRES_PASSWORD}
+
+      # Redis connection for queue management (common-redis)
+      - QUEUE_BULL_REDIS_HOST=common-redis
+      - QUEUE_BULL_REDIS_PORT=6379
+
+      # Binary data storage
+      - N8N_AVAILABLE_BINARY_DATA_MODES=filesystem
+      - N8N_DEFAULT_BINARY_DATA_MODE=filesystem
+    volumes:
+      - ./data:/home/node/.n8n
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.n8n.rule=Host(`n8n.localhost`)"
+      - "traefik.http.services.n8n.loadbalancer.server.port=5678"
+    extra_hosts:
+      # Allow connection to host-based Ollama
+      - host.docker.internal:host-gateway
+
+  # n8n Worker - Background job processor
+  n8n-worker:
+    image: docker.n8n.io/n8nio/n8n
+    container_name: n8n-worker
+    restart: unless-stopped
+    user: node
+    command: worker
+    networks:
+      - traefik
+    environment:
+      # Timezone
+      - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
+      - TZ=${TZ}
+
+      # Security
+      - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}
+      - N8N_USER_FOLDER=/home/node/.n8n
+      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+
+      # Execution settings
+      - NODE_FUNCTION_ALLOW_EXTERNAL=${NODE_FUNCTION_ALLOW_EXTERNAL}
+      - N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE=${N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE}
+      - N8N_EXECUTIONS_PROCESS=own
+      - N8N_AGENT_MAX_LOOP_ITERATIONS=${N8N_AGENT_MAX_LOOP_ITERATIONS}
+
+      # Queue mode
+      - EXECUTIONS_MODE=queue
+
+      # PostgreSQL database connection (same as n8n)
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=common-postgres
+      - DB_POSTGRESDB_PORT=5432
+      - DB_POSTGRESDB_DATABASE=n8n
+      - DB_POSTGRESDB_USER=${POSTGRES_USER}
+      - DB_POSTGRESDB_PASSWORD=${POSTGRES_PASSWORD}
+
+      # Redis connection for queue management
+      - QUEUE_BULL_REDIS_HOST=common-redis
+      - QUEUE_BULL_REDIS_PORT=6379
+    volumes:
+      - ./data:/home/node/.n8n
+    depends_on:
+      - n8n
+    extra_hosts:
+      # Allow connection to host-based Ollama
+      - host.docker.internal:host-gateway
+
+networks:
+  traefik:
+    external: true
