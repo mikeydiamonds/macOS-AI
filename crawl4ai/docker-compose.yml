@@ -1,0 +1,41 @@
+services:
+  # Crawl4ai - AI-powered web crawler with Ollama integration
+  # Accessible at crawl4ai.localhost
+  crawl4ai:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: crawl4ai-xvfb:latest
+    container_name: crawl4ai
+    restart: unless-stopped
+    shm_size: 1g
+    networks:
+      - traefik
+    environment:
+      # Virtual display for headless browser
+      - DISPLAY=:99
+
+      # Ollama LLM integration (host-based for GPU access)
+      - LLM_PROVIDER=${LLM_PROVIDER}
+      - OLLAMA_API_BASE=${OLLAMA_API_BASE}
+      - OLLAMA_PROXY_API_BASE=${OLLAMA_PROXY_API_BASE}
+      - OLLAMA_API_KEY=${OLLAMA_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+
+      # Optional: Proxy configuration
+      # - HTTP_PROXY=${HTTP_PROXY:-}
+      # - HTTPS_PROXY=${HTTPS_PROXY:-}
+      # - SOCKS_PROXY=${SOCKS_PROXY:-}
+    volumes:
+      # Shared memory for headless browser
+      - ./shm:/dev/shm
+      # Data persistence
+      - ./data:/home/appuser/.crawl4ai
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.crawl4ai.rule=Host(`crawl4ai.localhost`)"
+      - "traefik.http.services.crawl4ai.loadbalancer.server.port=11235"
+
+networks:
+  traefik:
+    external: true

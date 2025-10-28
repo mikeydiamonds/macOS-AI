@@ -1,0 +1,29 @@
+services:
+  # Docling - Document processing and conversion service
+  # Accessible at docling.localhost
+  docling:
+    image: quay.io/docling-project/docling-serve
+    container_name: docling
+    restart: unless-stopped
+    networks:
+      - traefik
+    environment:
+      # Enable web UI
+      - DOCLING_SERVE_ENABLE_UI=${DOCLING_SERVE_ENABLE_UI}
+
+      # Enable remote services support
+      - DOCLING_SERVE_ENABLE_REMOTE_SERVICES=${DOCLING_SERVE_ENABLE_REMOTE_SERVICES}
+
+      # Allow external plugins
+      - DOCLING_SERVE_ALLOW_EXTERNAL_PLUGINS=${DOCLING_SERVE_ALLOW_EXTERNAL_PLUGINS}
+
+      # Load models at boot (faster first request)
+      - DOCLING_SERVE_LOAD_MODELS_AT_BOOT=${DOCLING_SERVE_LOAD_MODELS_AT_BOOT}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.docling.rule=Host(`docling.localhost`)"
+      - "traefik.http.services.docling.loadbalancer.server.port=5001"
+
+networks:
+  traefik:
+    external: true

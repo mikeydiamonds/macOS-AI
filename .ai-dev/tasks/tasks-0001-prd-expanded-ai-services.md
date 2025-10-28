@@ -101,20 +101,20 @@
   - [x] 3.9 Update searxng settings.yml to reference .env secret key
   - [x] 3.10 Test refactored services with `docker compose -f traefik/docker-compose.yml up` pattern
 
-- [ ] 4.0 Create Web Crawling and Document Processing Services
-  - [ ] 4.1 Create `crawl4ai/Dockerfile` with Xvfb and headless browser dependencies
-  - [ ] 4.2 Create `crawl4ai/docker-compose.yml` with build context, Ollama integration, and display environment
-  - [ ] 4.3 Create `crawl4ai/.env.example` with LLM_PROVIDER, OLLAMA_BASE_URL, and optional proxy settings
-  - [ ] 4.4 Configure Crawl4ai Traefik labels for `crawl4ai.localhost` domain
-  - [ ] 4.5 Create `docling/docker-compose.yml` with docling-serve image and UI enabled
-  - [ ] 4.6 Create `docling/.env.example` with service configuration
-  - [ ] 4.7 Configure Docling Traefik labels for `docling.localhost` domain
-  - [ ] 4.8 Create `firecrawl/docker-compose.yml` with Playwright service and API service
-  - [ ] 4.9 Create `firecrawl/.env.example` with PostgreSQL, Redis, Ollama, and SearXNG integration
-  - [ ] 4.10 Configure Firecrawl database connection to common-postgres with firecrawl database
-  - [ ] 4.11 Configure Firecrawl Redis connection to common-redis
-  - [ ] 4.12 Configure Firecrawl Traefik labels for `firecrawl.localhost` domain
-  - [ ] 4.13 Test Crawl4ai, Docling, and Firecrawl services with Ollama integration
+- [x] 4.0 Create Web Crawling and Document Processing Services
+  - [x] 4.1 Create `crawl4ai/Dockerfile` with Xvfb and headless browser dependencies
+  - [x] 4.2 Create `crawl4ai/docker-compose.yml` with build context, Ollama integration, and display environment
+  - [x] 4.3 Create `crawl4ai/.env.example` with LLM_PROVIDER, OLLAMA_BASE_URL, and optional proxy settings
+  - [x] 4.4 Configure Crawl4ai Traefik labels for `crawl4ai.localhost` domain
+  - [x] 4.5 Create `docling/docker-compose.yml` with docling-serve image and UI enabled
+  - [x] 4.6 Create `docling/.env.example` with service configuration
+  - [x] 4.7 Configure Docling Traefik labels for `docling.localhost` domain
+  - [x] 4.8 Create `firecrawl/docker-compose.yml` with Playwright service and API service
+  - [x] 4.9 Create `firecrawl/.env.example` with PostgreSQL, Redis, Ollama, and SearXNG integration
+  - [x] 4.10 Configure Firecrawl database connection to common-postgres with firecrawl database
+  - [x] 4.11 Configure Firecrawl Redis connection to common-redis
+  - [x] 4.12 Configure Firecrawl Traefik labels for `firecrawl.localhost` domain
+  - [x] 4.13 Test Crawl4ai, Docling, and Firecrawl services with Ollama integration
 
 - [ ] 5.0 Create Workflow Automation and AI Services
   - [ ] 5.1 Create `n8n/docker-compose.yml` with main n8n service and n8n-worker service

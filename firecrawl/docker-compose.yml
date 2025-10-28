@@ -1,0 +1,82 @@
+services:
+  # Playwright - Headless browser service for JavaScript rendering
+  playwright:
+    image: ghcr.io/firecrawl/playwright-service:latest
+    container_name: firecrawl-playwright
+    restart: unless-stopped
+    networks:
+      - traefik
+    environment:
+      # Optional proxy configuration
+      - PROXY_SERVER=${PROXY_SERVER:-}
+      - PROXY_USERNAME=${PROXY_USERNAME:-}
+      - PROXY_PASSWORD=${PROXY_PASSWORD:-}
+      - BLOCK_MEDIA=${BLOCK_MEDIA:-false}
+
+  # Firecrawl API - Web scraping service
+  # Accessible at firecrawl.localhost
+  api:
+    image: ghcr.io/firecrawl/firecrawl:latest
+    container_name: firecrawl-api
+    restart: unless-stopped
+    networks:
+      - traefik
+    depends_on:
+      - playwright
+    environment:
+      # Core Settings
+      - PORT=3002
+      - HOST=0.0.0.0
+      - USE_DB_AUTHENTICATION=false
+
+      # Database connection to common-postgres
+      - NUQ_DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@common-postgres:5432/firecrawl
+
+      # Redis connection to common-redis
+      - REDIS_URL=redis://common-redis:6379
+      - REDIS_RATE_LIMIT_URL=redis://common-redis:6379
+
+      # Playwright service connection
+      - PLAYWRIGHT_MICROSERVICE_URL=http://firecrawl-playwright:3000
+
+      # Ollama LLM integration (host-based for GPU access)
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-}
+      - MODEL_NAME=${MODEL_NAME:-}
+      - MODEL_EMBEDDING_NAME=${MODEL_EMBEDDING_NAME:-}
+
+      # Optional: OpenAI API (if not using Ollama)
+      - OPENAI_BASE_URL=${OPENAI_BASE_URL:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+
+      # SearXNG search integration
+      - SEARXNG_API_URL=${SEARXNG_API_URL}
+
+      # Optional: Proxy configuration
+      - PROXY_SERVER=${PROXY_SERVER:-}
+      - PROXY_USERNAME=${PROXY_USERNAME:-}
+      - PROXY_PASSWORD=${PROXY_PASSWORD:-}
+      - HTTP_PROXY=${HTTP_PROXY:-}
+      - HTTPS_PROXY=${HTTPS_PROXY:-}
+
+      # Optional: Monitoring & Logging
+      - POSTHOG_API_KEY=${POSTHOG_API_KEY:-}
+      - POSTHOG_HOST=${POSTHOG_HOST:-}
+      - SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL:-}
+
+      # Resource Limits
+      - MAX_CPU_USAGE=${MAX_CPU_USAGE:-80}
+      - MAX_RAM_USAGE=${MAX_RAM_USAGE:-80}
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+    volumes:
+      - ./data:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.firecrawl.rule=Host(`firecrawl.localhost`)"
+      - "traefik.http.services.firecrawl.loadbalancer.server.port=3002"
+
+networks:
+  traefik:
+    external: true
