@@ -1,27 +1,62 @@
 # OS
 .DS_Store
 
-# Ignore Docker-specific files and directories
+# Environment & Secrets
+**/.env
+*.env
+!.env.example
+SECRETS.md
+
+# Docker-specific files
 .dockerenv
 .Dockerfile
 .dockerignore
+docker-compose.override.yml
 
-# Ignore folder structure
+# Service Data Directories
+# Common Services
+common/postgres_data/
+common/redis_data/
+
+# Open WebUI
+open-webui/data/
 open-webui/*
 !open-webui/.gitkeep
+!open-webui/docker-compose.yml
+!open-webui/.env.example
+
+# SearXNG
 searxng/*
+!searxng/.gitkeep
 !searxng/settings.yml
+!searxng/docker-compose.yml
+!searxng/.env.example
 
-# Ignore container logs
+# Crawl4ai
+crawl4ai/data/
+crawl4ai/shm/
+
+# Docling
+docling/data/
+
+# Firecrawl
+firecrawl/data/
+
+# n8n
+n8n/data/
+
+# Qdrant
+qdrant/storage/
+
+# Scriberr
+scriberr/data/
+
+# Supabase
+supabase/data/
+
+# Build & Runtime Files
+*.log
 logs/
-
-# Ignore volumes
 volumes/
-
-# Ignore build artifacts
 target/
 build/
-
-# Ignore .env files
-.env
-docker-compose.env
