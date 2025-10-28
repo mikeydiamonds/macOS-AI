@@ -1,0 +1,141 @@
+services:
+  # Supabase Studio - Web-based database management UI
+  # Accessible at supabase.localhost
+  # Note: This is a simplified setup using common-postgres
+  # For full Supabase features, see: https://supabase.com/docs/guides/self-hosting/docker
+
+  studio:
+    image: supabase/studio:latest
+    container_name: supabase-studio
+    restart: unless-stopped
+    networks:
+      - traefik
+    environment:
+      # Studio configuration
+      - STUDIO_PG_META_URL=http://meta:8080
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+      # Connection to common-postgres
+      - SUPABASE_URL=http://kong:8000
+      - SUPABASE_PUBLIC_URL=http://supabase.localhost
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_KEY=${SUPABASE_SERVICE_KEY}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.supabase.rule=Host(`supabase.localhost`)"
+      - "traefik.http.services.supabase.loadbalancer.server.port=3000"
+    depends_on:
+      - meta
+
+  # PostgreSQL Meta - Database metadata API
+  meta:
+    image: supabase/postgres-meta:latest
+    container_name: supabase-meta
+    restart: unless-stopped
+    networks:
+      - traefik
+    environment:
+      - PG_META_PORT=8080
+      - PG_META_DB_HOST=common-postgres
+      - PG_META_DB_PORT=5432
+      - PG_META_DB_NAME=supabase
+      - PG_META_DB_USER=${POSTGRES_USER}
+      - PG_META_DB_PASSWORD=${POSTGRES_PASSWORD}
+
+  # Kong API Gateway - Routes API requests
+  kong:
+    image: kong:latest
+    container_name: supabase-kong
+    restart: unless-stopped
+    networks:
+      - traefik
+    environment:
+      - KONG_DATABASE=off
+      - KONG_DECLARATIVE_CONFIG=/var/lib/kong/kong.yml
+      - KONG_DNS_ORDER=LAST,A,CNAME
+      - KONG_PLUGINS=request-transformer,cors,key-auth,acl
+    volumes:
+      - ./kong.yml:/var/lib/kong/kong.yml:ro
+
+  # GoTrue - Authentication service
+  auth:
+    image: supabase/gotrue:latest
+    container_name: supabase-auth
+    restart: unless-stopped
+    networks:
+      - traefik
+    environment:
+      - GOTRUE_API_HOST=0.0.0.0
+      - GOTRUE_API_PORT=9999
+      - GOTRUE_DB_DRIVER=postgres
+      - GOTRUE_DB_DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@common-postgres:5432/supabase?search_path=auth
+      - GOTRUE_SITE_URL=http://supabase.localhost
+      - GOTRUE_URI_ALLOW_LIST=*
+      - GOTRUE_DISABLE_SIGNUP=false
+      - GOTRUE_JWT_SECRET=${JWT_SECRET}
+      - GOTRUE_JWT_EXP=3600
+      - GOTRUE_JWT_DEFAULT_GROUP_NAME=authenticated
+      - GOTRUE_EXTERNAL_EMAIL_ENABLED=false
+      - GOTRUE_MAILER_AUTOCONFIRM=true
+
+  # PostgREST - RESTful API for PostgreSQL
+  rest:
+    image: postgrest/postgrest:latest
+    container_name: supabase-rest
+    restart: unless-stopped
+    networks:
+      - traefik
+    environment:
+      - PGRST_DB_URI=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@common-postgres:5432/supabase
+      - PGRST_DB_SCHEMAS=public,storage
+      - PGRST_DB_ANON_ROLE=anon
+      - PGRST_JWT_SECRET=${JWT_SECRET}
+      - PGRST_DB_USE_LEGACY_GUCS=false
+
+  # Realtime - Real-time subscriptions
+  realtime:
+    image: supabase/realtime:latest
+    container_name: supabase-realtime
+    restart: unless-stopped
+    networks:
+      - traefik
+    environment:
+      - PORT=4000
+      - DB_HOST=common-postgres
+      - DB_PORT=5432
+      - DB_NAME=supabase
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_SSL=false
+      - JWT_SECRET=${JWT_SECRET}
+      - REPLICATION_MODE=RLS
+      - REPLICATION_POLL_INTERVAL=100
+      - SECURE_CHANNELS=true
+      - SLOT_NAME=supabase_realtime_rls
+      - TEMPORARY_SLOT=true
+
+  # Storage - File storage service
+  storage:
+    image: supabase/storage-api:latest
+    container_name: supabase-storage
+    restart: unless-stopped
+    networks:
+      - traefik
+    environment:
+      - ANON_KEY=${SUPABASE_ANON_KEY}
+      - SERVICE_KEY=${SUPABASE_SERVICE_KEY}
+      - POSTGREST_URL=http://rest:3000
+      - PGRST_JWT_SECRET=${JWT_SECRET}
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@common-postgres:5432/supabase
+      - STORAGE_BACKEND=file
+      - FILE_SIZE_LIMIT=52428800
+      - STORAGE_FILE_PATH=/var/lib/storage
+      - TENANT_ID=stub
+      - REGION=stub
+      - GLOBAL_S3_BUCKET=stub
+    volumes:
+      - ./data/storage:/var/lib/storage
+
+networks:
+  traefik:
+    external: true
