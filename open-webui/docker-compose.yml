@@ -1,0 +1,44 @@
+services:
+  # Open WebUI - Chat Interface for Ollama
+  # Accessible at chat.localhost
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:latest
+    container_name: open-webui
+    restart: unless-stopped
+    networks:
+      - traefik
+    environment:
+      # Ollama connection (host-based for GPU access)
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL}
+
+      # Web search integration via SearXNG
+      - ENABLE_RAG_WEB_SEARCH=${ENABLE_RAG_WEB_SEARCH}
+      - RAG_WEB_SEARCH_ENGINE=${RAG_WEB_SEARCH_ENGINE}
+      - RAG_WEB_SEARCH_RESULT_COUNT=${RAG_WEB_SEARCH_RESULT_COUNT}
+      - RAG_WEB_SEARCH_CONCURRENT_REQUESTS=${RAG_WEB_SEARCH_CONCURRENT_REQUESTS}
+      - SEARXNG_QUERY_URL=${SEARXNG_QUERY_URL}
+
+      # RAG with Qdrant vector database (optional)
+      - ENABLE_RAG_LOCAL_WEB_FETCH=${ENABLE_RAG_LOCAL_WEB_FETCH:-false}
+      - VECTOR_DB=${VECTOR_DB:-}
+      - QDRANT_URL=${QDRANT_URL:-}
+
+      # Authentication disabled (local-only setup)
+      - WEBUI_AUTH=${WEBUI_AUTH}
+    volumes:
+      # Time synchronization
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      # Data persistence
+      - ./data:/app/backend/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.open-webui.rule=Host(`chat.localhost`)"
+      - "traefik.http.services.open-webui.loadbalancer.server.port=8080"
+    extra_hosts:
+      # Allow connection to host-based Ollama
+      - host.docker.internal:host-gateway
+
+networks:
+  traefik:
+    external: true

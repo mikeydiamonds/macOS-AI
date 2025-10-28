@@ -1,0 +1,23 @@
+services:
+  # SearXNG - Privacy-focused metasearch engine
+  # Accessible at searxng.localhost
+  searxng:
+    image: searxng/searxng:latest
+    container_name: searxng
+    restart: unless-stopped
+    networks:
+      - traefik
+    volumes:
+      # Time synchronization
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      # Configuration (settings.yml contains secret_key)
+      - ./settings.yml:/etc/searxng/settings.yml:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.searxng.rule=Host(`searxng.localhost`)"
+      - "traefik.http.services.searxng.loadbalancer.server.port=8080"
+
+networks:
+  traefik:
+    external: true

@@ -1,0 +1,41 @@
+services:
+  # Traefik v3.1 - Reverse Proxy
+  # Routes all services via .localhost domains
+  # Dashboard accessible at traefik.localhost
+  traefik:
+    image: traefik:v3.1
+    container_name: traefik
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - traefik
+    command:
+      # Uncomment for debug logs
+      #- "--log.level=DEBUG"
+
+      # Enable Docker provider
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+
+      # Enable entrypoints
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.traefik.address=:8080"
+    ports:
+      # HTTP traffic for all services
+      - "80:80"
+      # Traefik dashboard
+      - "8080:8080"
+    volumes:
+      # Read-only access to Docker socket for service discovery
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    labels:
+      - "traefik.enable=true"
+      # Dashboard routing at traefik.localhost
+      - "traefik.http.routers.api.rule=Host(`traefik.localhost`)"
+      - "traefik.http.routers.api.service=api@internal"
+
+networks:
+  traefik:
+    external: true

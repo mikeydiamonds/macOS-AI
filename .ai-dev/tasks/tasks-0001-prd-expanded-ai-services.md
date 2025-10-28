@@ -75,31 +75,31 @@
 
 ## Tasks
 
-- [ ] 1.0 Update Project Structure and Git Configuration
+- [x] 1.0 Update Project Structure and Git Configuration
   - [x] 1.1 Update `.gitignore` with comprehensive rules for .env files (`**/.env`, `*.env`), SECRETS.md, and all service data directories
   - [x] 1.2 Create directory structure for all new services (common, traefik, crawl4ai, docling, firecrawl, n8n, qdrant, scriberr, supabase)
   - [x] 1.3 Create `.gitkeep` files in all data directories to preserve structure (common/postgres_data/, common/redis_data/, etc.)
   - [x] 1.4 Remove monolithic `compose.yaml` file (will be replaced by modular service compose files)
 
-- [ ] 2.0 Create Common Infrastructure Services (PostgreSQL + Redis)
-  - [ ] 2.1 Create `common/docker-compose.yml` with PostgreSQL 17 and Redis Alpine services
-  - [ ] 2.2 Create `common/.env.example` with PostgreSQL/Redis configuration variables and detailed comments
-  - [ ] 2.3 Create `common/init-db.sql` script to initialize databases for firecrawl, n8n, and supabase
-  - [ ] 2.4 Configure PostgreSQL with proper volume mounting and restart policy
-  - [ ] 2.5 Configure Redis with appendonly persistence and restart policy
-  - [ ] 2.6 Test common services startup and verify database initialization
+- [x] 2.0 Create Common Infrastructure Services (PostgreSQL + Redis)
+  - [x] 2.1 Create `common/docker-compose.yml` with PostgreSQL 17 and Redis Alpine services
+  - [x] 2.2 Create `common/.env.example` with PostgreSQL/Redis configuration variables and detailed comments
+  - [x] 2.3 Create `common/init-db.sql` script to initialize databases for firecrawl, n8n, and supabase
+  - [x] 2.4 Configure PostgreSQL with proper volume mounting and restart policy
+  - [x] 2.5 Configure Redis with appendonly persistence and restart policy
+  - [x] 2.6 Test common services startup and verify database initialization
 
-- [ ] 3.0 Refactor Existing Services to Modular Structure
-  - [ ] 3.1 Create `traefik/docker-compose.yml` from existing compose.yaml traefik service
-  - [ ] 3.2 Create `traefik/.env.example` with optional Traefik configuration
-  - [ ] 3.3 Add Traefik dashboard routing with label `traefik.http.routers.api.rule=Host(\`traefik.localhost\`)`
-  - [ ] 3.4 Create `open-webui/docker-compose.yml` from existing compose.yaml open-webui service
-  - [ ] 3.5 Create `open-webui/.env.example` with Ollama, SearXNG, and Qdrant RAG configuration
-  - [ ] 3.6 Update Open WebUI environment variables to reference .env file
-  - [ ] 3.7 Create `searxng/docker-compose.yml` from existing compose.yaml searxng service
-  - [ ] 3.8 Create `searxng/.env.example` with secret key configuration (GENERATE_RANDOM_32 placeholder)
-  - [ ] 3.9 Update searxng settings.yml to reference .env secret key
-  - [ ] 3.10 Test refactored services with `docker compose -f traefik/docker-compose.yml up` pattern
+- [x] 3.0 Refactor Existing Services to Modular Structure
+  - [x] 3.1 Create `traefik/docker-compose.yml` from existing compose.yaml traefik service
+  - [x] 3.2 Create `traefik/.env.example` with optional Traefik configuration
+  - [x] 3.3 Add Traefik dashboard routing with label `traefik.http.routers.api.rule=Host(\`traefik.localhost\`)`
+  - [x] 3.4 Create `open-webui/docker-compose.yml` from existing compose.yaml open-webui service
+  - [x] 3.5 Create `open-webui/.env.example` with Ollama, SearXNG, and Qdrant RAG configuration
+  - [x] 3.6 Update Open WebUI environment variables to reference .env file
+  - [x] 3.7 Create `searxng/docker-compose.yml` from existing compose.yaml searxng service
+  - [x] 3.8 Create `searxng/.env.example` with secret key configuration (GENERATE_RANDOM_32 placeholder)
+  - [x] 3.9 Update searxng settings.yml to reference .env secret key
+  - [x] 3.10 Test refactored services with `docker compose -f traefik/docker-compose.yml up` pattern
 
 - [ ] 4.0 Create Web Crawling and Document Processing Services
   - [ ] 4.1 Create `crawl4ai/Dockerfile` with Xvfb and headless browser dependencies
