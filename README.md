@@ -59,27 +59,18 @@ Now get ready to automate your world, and grab a cup of coffee, the first run ta
 
 ### 7. Access the Applications
 
-| Service                                                             | Local URL                            | Use  |
-|---------------------------------------------------------------------|--------------------------------------|------|
-| [Open WebUI](https://docs.openwebui.com/)                           | http://chat.localhost                |  🤖  |
-| [SearXNG](https://github.com/searxng/searxng)                       | http://searxng.localhost             |  🔍  |
-| [Firecrawl](https://docs.firecrawl.dev/contributing/self-host)      | http://firecrawl.localhost           |  🕷️  |
-| [Crawl4ai](https://docs.crawl4ai.com/)                              | http://crawl4ai.localhost/playground |  🕸️  |
-| [Docling](https://www.docling.ai/)                                  | http://docling.localhost/ui          |  📄  |
-| [n8n](https://github.com/n8n-io/n8n)                                | http://n8n.localhost                 |  🔄  |
-| [Qdrant](https://qdrant.tech/)                                      | http://qdrant.localhost/dashboard    |  🗄️  |
-| [Scriberr](https://github.com/rishikanthc/Scriberr) (testing)       | http://scriberr.localhost            |  🎙️  |
-| [Supabase](https://supabase.com/docs/guides/self-hosting) (testing) | http://supabase.localhost            |  🗃️  |
-| [Traefik](https://traefik.io/)                                      | http://traefik.localhost             |  🚦  |
-
-
-## Additional Information
-
-- (**Open WebUI**)[https://docs.openwebui.com/] does have authentication built in but I have disabled the feature for this local only project. To enable, just remove `- WEBUI_AUTH=false` from `compose.yml`.
-- (**Traefik**)[https://traefik.io/] is used as a reverse proxy to manage routing for the Open Web UI and SearXNG.
-- (**SearXNG**)[https://github.com/searxng/searxng] is configured for web searches and integrated with the Open Web UI.
-
-Ensure Docker Desktop is running before executing the Docker Compose command. If you encounter any issues, refer to the documentation of the respective tools or the project's GitHub issues page for troubleshooting.
+| Service                                                        | Local URL                            | status  | Use  |
+|----------------------------------------------------------------|--------------------------------------|---------|------|
+| [Open WebUI](https://docs.openwebui.com/)                      | http://chat.localhost                |    ✅   |  🤖  |
+| [SearXNG](https://github.com/searxng/searxng)                  | http://searxng.localhost             |    ✅   |  🔍  |
+| [Firecrawl](https://docs.firecrawl.dev/contributing/self-host) | http://firecrawl.localhost           |    ✅   |  🕷️  |
+| [Crawl4ai](https://docs.crawl4ai.com/)                         | http://crawl4ai.localhost/playground |    ✅   |  🕸️  |
+| [Docling](https://www.docling.ai/)                             | http://docling.localhost/ui          |    ✅   |  📄  |
+| [n8n](https://github.com/n8n-io/n8n)                           | http://n8n.localhost                 |    ✅   |  🔄  |
+| [Qdrant](https://qdrant.tech/)                                 | http://qdrant.localhost/dashboard    |    ✅   |  🗄️  |
+| [Scriberr](https://github.com/rishikanthc/Scriberr)            | http://scriberr.localhost            | testing |  🎙️  |
+| [Supabase](https://supabase.com/docs/guides/self-hosting)      | http://supabase.localhost            | testing |  🗃️  |
+| [Traefik](https://traefik.io/)                                 | http://traefik.localhost             |    ✅   |  🚦  |
 
 ## Troubleshooting
 
@@ -91,4 +82,6 @@ Ensure Docker Desktop is running before executing the Docker Compose command. If
 
 Feel free to open an issue on this GitHub repository if you encounter any problems not covered in this guide.
 
-And above all, have fun with local AI and automation!
+### And above all, have fun with local AI and automation!
+
+Happy coding! 🚀
