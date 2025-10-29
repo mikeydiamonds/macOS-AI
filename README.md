@@ -89,12 +89,38 @@ We've included example workflows to help you get started with automation:
 ## Troubleshooting
 
 - **Reset the stack/start over**: `./setup.sh --reset`
-  
+
 - **Docker Desktop Issues**: Make sure Docker Desktop is running and you have granted necessary permissions. Adjust resource limits in the settings.
 - **Model Pull Issues**: Ensure you have a stable internet connection while pulling the model using Ollama.
 - **Network Issues**: If you can't access `http://chat.localhost`, verify your Docker network settings and ensure no other services are conflicting with port 80.
 
-Feel free to open an issue on this GitHub repository if you encounter any problems not covered in this guide.
+## Development with AI
+
+This project was built using **[Claude Code](https://claude.com/claude-code)** - Anthropic's AI coding assistant that runs directly in your terminal. Claude Code helped automate the entire stack setup, from Docker configurations to workflow examples.
+
+### Structured Development Process
+
+Development followed a modified 3-file PRD (Product Requirements Document) system inspired by [snarktank/ai-dev-tasks](https://github.com/snarktank/ai-dev-tasks):
+
+1. **`/prd`** - Create a PRD defining feature scope and requirements
+2. **`/gentasks`** - Generate a detailed, step-by-step implementation task list from the PRD
+3. **`/ptasks`** - Process tasks sequentially with built-in verification checkpoints
+
+This approach breaks complex features into manageable chunks with iterative review, making it ideal for AI-assisted development. The slash commands are available in this repository's `.claude/commands/` directory.
+
+**Want to contribute?** Use the same structured approach:
+```bash
+# 1. Define your feature
+/prd
+
+# 2. Generate implementation tasks
+/gentasks
+
+# 3. Execute with verification
+/ptasks
+```
+
+### Feel free to open an issue on this GitHub repository if you encounter any problems not covered in this guide.
 
 ### And above all, have fun with local AI and automation!
 
