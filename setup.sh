@@ -594,6 +594,11 @@ echo "  • View service logs:            docker compose -f <service>/docker-com
 echo "  • Stop all services:            docker compose -f */docker-compose.yml down"
 echo "  • Restart a service:            docker compose -f <service>/docker-compose.yml restart"
 echo ""
+print_info "Get Started with Automation:"
+echo "  • Import example n8n workflow:  See n8n/WORKFLOWS.md for instructions"
+echo "  • Example workflow shows:       SearXNG → Ollama → Supabase → Qdrant → NocoDB"
+echo "  • Workflow file location:       n8n/workflows/example-workflow.json"
+echo ""
 
 # =============================================================================
 # OLLAMA MODEL SETUP (OPTIONAL)

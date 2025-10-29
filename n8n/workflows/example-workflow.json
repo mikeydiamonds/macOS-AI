@@ -1,0 +1,203 @@
+{
+  "name": "Stack Services Example",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "start",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://searxng:8080/search",
+        "method": "GET",
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "artificial intelligence"
+            },
+            {
+              "name": "format",
+              "value": "json"
+            }
+          ]
+        }
+      },
+      "id": "searxng",
+      "name": "SearXNG Search",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [450, 300],
+      "notes": "Search the web using SearXNG"
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:11434/api/generate",
+        "method": "POST",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "llama3.1:8b"
+            },
+            {
+              "name": "prompt",
+              "value": "Summarize these search results in 3 bullet points: {{ $json.results }}"
+            },
+            {
+              "name": "stream",
+              "value": false
+            }
+          ]
+        }
+      },
+      "id": "ollama",
+      "name": "Ollama AI Summary",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [650, 300],
+      "notes": "Use Ollama to summarize search results"
+    },
+    {
+      "parameters": {
+        "url": "http://supabase-rest:3000/research_results",
+        "method": "POST",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{$credentials.supabaseApi.serviceRole}}"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer {{$credentials.supabaseApi.serviceRole}}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "topic",
+              "value": "AI Search"
+            },
+            {
+              "name": "summary",
+              "value": "={{ $json.response }}"
+            }
+          ]
+        }
+      },
+      "id": "supabase",
+      "name": "Save to Supabase",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [850, 300],
+      "credentials": {
+        "supabaseApi": {
+          "id": "9",
+          "name": "Supabase Local"
+        }
+      },
+      "notes": "Store results in Supabase (PostgREST API)"
+    },
+    {
+      "parameters": {
+        "url": "http://qdrant:6333/collections",
+        "method": "GET"
+      },
+      "id": "qdrant",
+      "name": "Check Qdrant Collections",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [650, 500],
+      "notes": "List available Qdrant vector collections"
+    },
+    {
+      "parameters": {
+        "url": "http://nocodb:8080/api/v1/db/meta/projects",
+        "method": "GET"
+      },
+      "id": "nocodb",
+      "name": "Check NocoDB Projects",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [850, 500],
+      "notes": "List NocoDB bases/projects"
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "SearXNG Search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SearXNG Search": {
+      "main": [
+        [
+          {
+            "node": "Ollama AI Summary",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Qdrant Collections",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama AI Summary": {
+      "main": [
+        [
+          {
+            "node": "Save to Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Qdrant Collections": {
+      "main": [
+        [
+          {
+            "node": "Check NocoDB Projects",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2025-01-15T00:00:00.000Z",
+      "updatedAt": "2025-01-15T00:00:00.000Z",
+      "id": "1",
+      "name": "example"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2025-01-15T00:00:00.000Z",
+  "versionId": "1"
+}

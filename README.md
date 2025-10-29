@@ -73,6 +73,19 @@ Now get ready to automate your world, and grab a cup of coffee, the first run ta
 | [NocoDB](https://nocodb.com/)                                  | http://nocodb.localhost              |    ✅   | No-Code Database Platform     |
 | [Traefik](https://traefik.io/)                                 | http://traefik.localhost             |    ✅   | Reverse Proxy & Routing       |
 
+### 8. Get Started with n8n Workflows
+
+We've included example workflows to help you get started with automation:
+
+1. Access n8n at http://n8n.localhost and create your owner account
+2. Follow the [n8n Workflow Setup Guide](n8n/WORKFLOWS.md) to import the example workflow
+3. The example demonstrates connecting SearXNG, Ollama, Supabase, Qdrant, and NocoDB
+
+**Quick start:**
+- Example workflows: `n8n/workflows/`
+- Full guide: [`n8n/WORKFLOWS.md`](n8n/WORKFLOWS.md)
+- Workflow ideas: Search → Scrape → AI Analysis → Store in Database
+
 ## Troubleshooting
 
 - **Reset the stack/start over**: `./setup.sh --reset`
