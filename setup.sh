@@ -112,6 +112,7 @@ cat << "EOF"
 ║  • Qdrant - Vector database at http://qdrant.localhost                   ║
 ║  • Scriberr - Transcription at http://scriberr.localhost                 ║
 ║  • Supabase - Backend platform at http://supabase.localhost              ║
+║  • NocoDB - No-Code database at http://nocodb.localhost                  ║
 ║                                                                          ║
 ╚══════════════════════════════════════════════════════════════════════════╝
 EOF
@@ -196,6 +197,7 @@ services=(
     "qdrant"
     "scriberr"
     "supabase"
+    "nocodb"
 )
 
 # Handle reset mode
@@ -227,6 +229,7 @@ if [ "$RESET_MODE" = true ]; then
     rm -rf firecrawl/data
     rm -rf crawl4ai/data
     rm -rf docling/data
+    rm -rf nocodb/data
     rm -f SECRETS.md
 
     print_success "Reset complete - proceeding with fresh installation"
@@ -480,6 +483,10 @@ docker exec common-postgres psql -U postgres -c "CREATE DATABASE IF NOT EXISTS s
 docker exec common-postgres psql -U postgres -c "SELECT 1 FROM pg_database WHERE datname = 'supabase';" | grep -q 1 || \
 docker exec common-postgres psql -U postgres -c "CREATE DATABASE supabase;"
 
+docker exec common-postgres psql -U postgres -c "CREATE DATABASE IF NOT EXISTS nocodb;" 2>/dev/null || \
+docker exec common-postgres psql -U postgres -c "SELECT 1 FROM pg_database WHERE datname = 'nocodb';" | grep -q 1 || \
+docker exec common-postgres psql -U postgres -c "CREATE DATABASE nocodb;"
+
 print_success "Databases created"
 
 # Initialize Firecrawl schema (NuQ queue system)
@@ -542,6 +549,11 @@ wait_for_container "Supabase Storage" "supabase-storage" 45
 wait_for_container "Supabase Realtime" "supabase-realtime" 45
 wait_for_container "Supabase Studio" "supabase-studio" 30
 
+# Start NocoDB
+print_info "Starting NocoDB..."
+docker compose -f nocodb/docker-compose.yml up -d
+wait_for_container "NocoDB" "nocodb" 30
+
 # =============================================================================
 # SUCCESS MESSAGE
 # =============================================================================
@@ -570,6 +582,7 @@ echo " n8n Workflows:        http://n8n.localhost                   🔄"
 echo " Qdrant:               http://qdrant.localhost/dashboard      🗄️"
 echo " Scriberr:             http://scriberr.localhost              🎙️"
 echo " Supabase Studio:      http://supabase.localhost              🗃️"
+echo " NocoDB:               http://nocodb.localhost                📊"
 echo " Traefik Dashboard:    http://traefik.localhost               🚦"
 echo ""
 print_info "Your secrets are stored in: SECRETS.md (keep this file secure!)"

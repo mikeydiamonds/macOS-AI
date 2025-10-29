@@ -1,6 +1,6 @@
-# Local AI for macOS
+# Local AI Stack for macOS
 
-This project sets up a simple local AI environment on your Mac, utilizing Apple Silicon GPUs for optimal performance. You'll use Homebrew to install Ollama, pull a model, and Docker to run the Open Web UI and SearXNG for enhanced functionality.
+A complete local AI environment for your Mac with Apple Silicon GPU acceleration. This stack includes chat interfaces, web search, document processing, workflow automation, vector databases, and more—all running locally with a single setup script.
 
 ## Prerequisites
 
@@ -59,18 +59,19 @@ Now get ready to automate your world, and grab a cup of coffee, the first run ta
 
 ### 7. Access the Applications
 
-| Service                                                        | Local URL                            | status  | Use  |
-|----------------------------------------------------------------|--------------------------------------|---------|------|
-| [Open WebUI](https://docs.openwebui.com/)                      | http://chat.localhost                |    ✅   |  🤖  |
-| [SearXNG](https://github.com/searxng/searxng)                  | http://searxng.localhost             |    ✅   |  🔍  |
-| [Firecrawl](https://docs.firecrawl.dev/contributing/self-host) | http://firecrawl.localhost           |    ✅   |  🕷️  |
-| [Crawl4ai](https://docs.crawl4ai.com/)                         | http://crawl4ai.localhost/playground |    ✅   |  🕸️  |
-| [Docling](https://www.docling.ai/)                             | http://docling.localhost/ui          |    ✅   |  📄  |
-| [n8n](https://github.com/n8n-io/n8n)                           | http://n8n.localhost                 |    ✅   |  🔄  |
-| [Qdrant](https://qdrant.tech/)                                 | http://qdrant.localhost/dashboard    |    ✅   |  🗄️  |
-| [Scriberr](https://github.com/rishikanthc/Scriberr)            | http://scriberr.localhost            | testing |  🎙️  |
-| [Supabase](https://supabase.com/docs/guides/self-hosting)      | http://supabase.localhost            | testing |  🗃️  |
-| [Traefik](https://traefik.io/)                                 | http://traefik.localhost             |    ✅   |  🚦  |
+| Service                                                        | Local URL                            | status  | Use                           |
+|----------------------------------------------------------------|--------------------------------------|---------|-------------------------------|
+| [Open WebUI](https://docs.openwebui.com/)                      | http://chat.localhost                |    ✅   | AI Chat Interface             |
+| [SearXNG](https://github.com/searxng/searxng)                  | http://searxng.localhost             |    ✅   | Private Web Search            |
+| [Firecrawl](https://docs.firecrawl.dev/contributing/self-host) | http://firecrawl.localhost           |    ✅   | Web Scraping API              |
+| [Crawl4ai](https://docs.crawl4ai.com/)                         | http://crawl4ai.localhost/playground |    ✅   | AI-Powered Web Crawler        |
+| [Docling](https://www.docling.ai/)                             | http://docling.localhost/ui          |    ✅   | Document Processing           |
+| [n8n](https://github.com/n8n-io/n8n)                           | http://n8n.localhost                 |    ✅   | Workflow Automation           |
+| [Qdrant](https://qdrant.tech/)                                 | http://qdrant.localhost/dashboard    |    ✅   | Vector Database               |
+| [Scriberr](https://github.com/rishikanthc/Scriberr)            | http://scriberr.localhost            | testing | Audio Transcription           |
+| [Supabase](https://supabase.com/docs/guides/self-hosting)      | http://supabase.localhost            |    ✅   | Database & Backend            |
+| [NocoDB](https://nocodb.com/)                                  | http://nocodb.localhost              |    ✅   | No-Code Database Platform     |
+| [Traefik](https://traefik.io/)                                 | http://traefik.localhost             |    ✅   | Reverse Proxy & Routing       |
 
 ## Troubleshooting
 

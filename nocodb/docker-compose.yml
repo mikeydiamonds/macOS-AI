@@ -1,0 +1,46 @@
+services:
+  # NocoDB - No-Code Database Platform
+  # Accessible at nocodb.localhost
+  # Open-source Airtable alternative
+  nocodb:
+    image: nocodb/nocodb:latest
+    container_name: nocodb
+    restart: unless-stopped
+    networks:
+      - traefik
+    environment:
+      # Database configuration (using common-postgres)
+      - NC_DB=pg://common-postgres:5432?d=nocodb&user=${POSTGRES_USER}&password=${POSTGRES_PASSWORD}
+
+      # Public URL
+      - NC_PUBLIC_URL=http://nocodb.localhost
+
+      # Redis for caching (using common-redis)
+      - NC_REDIS_URL=redis://common-redis:6379/2
+
+      # Disable telemetry for privacy
+      - NC_DISABLE_TELE=true
+
+      # Auth settings (optional - leave empty for signup on first access)
+      # - NC_ADMIN_EMAIL=${NC_ADMIN_EMAIL}
+      # - NC_ADMIN_PASSWORD=${NC_ADMIN_PASSWORD}
+
+      # Optional: Uncomment to enable email notifications
+      # - NC_SMTP_SERVER=${NC_SMTP_SERVER}
+      # - NC_SMTP_PORT=${NC_SMTP_PORT:-587}
+      # - NC_SMTP_USERNAME=${NC_SMTP_USERNAME}
+      # - NC_SMTP_PASSWORD=${NC_SMTP_PASSWORD}
+      # - NC_SMTP_FROM=${NC_SMTP_FROM:-noreply@localhost}
+      # - NC_SMTP_SECURE=${NC_SMTP_SECURE:-false}
+    volumes:
+      # Local data storage for attachments
+      - ./data:/usr/app/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.nocodb.rule=Host(`nocodb.localhost`)"
+      - "traefik.http.services.nocodb.loadbalancer.server.port=8080"
+
+networks:
+  traefik:
+    external: true

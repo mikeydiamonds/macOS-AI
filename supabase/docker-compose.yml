@@ -8,6 +8,8 @@ services:
     image: supabase/studio:2025.10.27-sha-85b84e0
     container_name: supabase-studio
     restart: unless-stopped
+    healthcheck:
+      disable: true
     networks:
       - traefik
     environment:
@@ -22,6 +24,7 @@ services:
       - SUPABASE_SERVICE_KEY=${SUPABASE_SERVICE_KEY}
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
       - "traefik.http.routers.supabase.rule=Host(`supabase.localhost`)"
       - "traefik.http.services.supabase.loadbalancer.server.port=3000"
     depends_on:
