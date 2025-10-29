@@ -66,8 +66,8 @@ Now get ready to automate your world, and grab a cup of coffee, the first run ta
  Docling:              http://docling.localhost/ui/           📄
  n8n Workflows:        http://n8n.localhost                   🔄
  Qdrant:               http://qdrant.localhost/dashboard      🗄️
- Scriberr:             http://scriberr.localhost              🎙️
- Supabase Studio:      http://supabase.localhost              🗃️
+ Scriberr:             http://scriberr.localhost              🎙️  **testing**
+ Supabase Studio:      http://supabase.localhost              🗃️  **testing**
  Traefik Dashboard:    http://traefik.localhost               🚦
 
 ## Additional Information
