@@ -4,7 +4,7 @@ This project sets up a simple local AI environment on your Mac, utilizing Apple 
 
 ## Prerequisites
 
-- A Mac with Apple Silicon (M1/M2)
+- A Mac with Apple Silicon (M1 -> M5)
 - Homebrew
 - Docker Desktop
 
@@ -36,26 +36,39 @@ ollama pull llama3.1
 ### 4. Install Docker Desktop
 Download and install Docker Desktop from Docker's [official website](https://www.docker.com/products/docker-desktop/). You could install Docker in other ways but this way is the simplest.
 
-### 5. Clone the GitHub Repository
+### 5. Clone this GitHub Repository
 Clone the GitHub repository for this project and change into the directory:
 
 ```sh
 git clone https://github.com/mikeydiamonds/macOS-AI.git && cd macOS-AI
 ```
 
-### 6. Run Docker Compose
+### 6. Run the Setup Script
 
-Start the services using Docker Compose:
+First make the script executable:
 
 ```sh
-docker-compose up -d
+chmod +x setup.sh
 ```
 
-### 7. Access the Application
+Now get ready to automate your world, and grab a cup of coffee, the first run takes a bit of time ( ~10 minutes ):
 
-Open your browser and navigate to [http://chat.localhost](http://chat.localhost).
+```sh
+./setup.sh
+```
 
-You should now have access to the Open Web UI running locally on your Mac.
+### 7. Access the Applications
+
+ Chat Interface:       http://chat.localhost                  🤖
+ Search Engine:        http://searxng.localhost               🔍
+ Firecrawl:            http://firecrawl.localhost             🕷️
+ Crawl4ai:             http://crawl4ai.localhost/playground/  🕸️
+ Docling:              http://docling.localhost/ui/           📄
+ n8n Workflows:        http://n8n.localhost                   🔄
+ Qdrant:               http://qdrant.localhost/dashboard      🗄️
+ Scriberr:             http://scriberr.localhost              🎙️
+ Supabase Studio:      http://supabase.localhost              🗃️
+ Traefik Dashboard:    http://traefik.localhost               🚦
 
 ## Additional Information
 
@@ -67,10 +80,12 @@ Ensure Docker Desktop is running before executing the Docker Compose command. If
 
 ## Troubleshooting
 
+- **Reset the stack/start over**: `./setup.sh --reset`
+  
 - **Docker Desktop Issues**: Make sure Docker Desktop is running and you have granted necessary permissions. Adjust resource limits in the settings.
 - **Model Pull Issues**: Ensure you have a stable internet connection while pulling the model using Ollama.
 - **Network Issues**: If you can't access `http://chat.localhost`, verify your Docker network settings and ensure no other services are conflicting with port 80.
 
 Feel free to open an issue on this GitHub repository if you encounter any problems not covered in this guide.
 
-And above all, have fun with local AI!
+And above all, have fun with local AI and automation!

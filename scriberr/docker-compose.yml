@@ -9,6 +9,10 @@ services:
     networks:
       - traefik
     environment:
+      # Optional: Admin credentials (if not set, setup wizard appears on first access)
+      - SCRIBERR_USERNAME=${SCRIBERR_USERNAME:-}
+      - SCRIBERR_PASSWORD=${SCRIBERR_PASSWORD:-}
+
       # Optional: Increase body size limit for large media files
       - BODY_SIZE_LIMIT=${BODY_SIZE_LIMIT:-10G}
     volumes:

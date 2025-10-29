@@ -2,6 +2,7 @@ services:
   # Playwright - Headless browser service for JavaScript rendering
   playwright:
     image: ghcr.io/firecrawl/playwright-service:latest
+    platform: linux/amd64  # Images only available for AMD64 - uses Rosetta 2 emulation on Apple Silicon
     container_name: firecrawl-playwright
     restart: unless-stopped
     networks:
@@ -17,6 +18,7 @@ services:
   # Accessible at firecrawl.localhost
   api:
     image: ghcr.io/firecrawl/firecrawl:latest
+    platform: linux/amd64  # Images only available for AMD64 - uses Rosetta 2 emulation on Apple Silicon
     container_name: firecrawl-api
     restart: unless-stopped
     networks:

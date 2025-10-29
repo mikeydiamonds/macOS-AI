@@ -5,7 +5,7 @@ services:
   # For full Supabase features, see: https://supabase.com/docs/guides/self-hosting/docker
 
   studio:
-    image: supabase/studio:latest
+    image: supabase/studio:2025.10.27-sha-85b84e0
     container_name: supabase-studio
     restart: unless-stopped
     networks:
@@ -29,7 +29,7 @@ services:
 
   # PostgreSQL Meta - Database metadata API
   meta:
-    image: supabase/postgres-meta:latest
+    image: supabase/postgres-meta:v0.93.1
     container_name: supabase-meta
     restart: unless-stopped
     networks:
@@ -44,7 +44,7 @@ services:
 
   # Kong API Gateway - Routes API requests
   kong:
-    image: kong:latest
+    image: kong:2.8.1
     container_name: supabase-kong
     restart: unless-stopped
     networks:
@@ -59,7 +59,7 @@ services:
 
   # GoTrue - Authentication service
   auth:
-    image: supabase/gotrue:latest
+    image: supabase/gotrue:v2.180.0
     container_name: supabase-auth
     restart: unless-stopped
     networks:
@@ -67,6 +67,7 @@ services:
     environment:
       - GOTRUE_API_HOST=0.0.0.0
       - GOTRUE_API_PORT=9999
+      - API_EXTERNAL_URL=http://supabase.localhost
       - GOTRUE_DB_DRIVER=postgres
       - GOTRUE_DB_DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@common-postgres:5432/supabase?search_path=auth
       - GOTRUE_SITE_URL=http://supabase.localhost
@@ -80,7 +81,7 @@ services:
 
   # PostgREST - RESTful API for PostgreSQL
   rest:
-    image: postgrest/postgrest:latest
+    image: postgrest/postgrest:v13.0.7
     container_name: supabase-rest
     restart: unless-stopped
     networks:
@@ -94,12 +95,13 @@ services:
 
   # Realtime - Real-time subscriptions
   realtime:
-    image: supabase/realtime:latest
+    image: supabase/realtime:v2.57.2
     container_name: supabase-realtime
     restart: unless-stopped
     networks:
       - traefik
     environment:
+      - APP_NAME=realtime
       - PORT=4000
       - DB_HOST=common-postgres
       - DB_PORT=5432
@@ -108,15 +110,17 @@ services:
       - DB_PASSWORD=${POSTGRES_PASSWORD}
       - DB_SSL=false
       - JWT_SECRET=${JWT_SECRET}
+      - SECRET_KEY_BASE=${JWT_SECRET}
       - REPLICATION_MODE=RLS
       - REPLICATION_POLL_INTERVAL=100
       - SECURE_CHANNELS=true
       - SLOT_NAME=supabase_realtime_rls
       - TEMPORARY_SLOT=true
+      - RLIMIT_NOFILE=1048576
 
   # Storage - File storage service
   storage:
-    image: supabase/storage-api:latest
+    image: supabase/storage-api:v1.28.2
     container_name: supabase-storage
     restart: unless-stopped
     networks:
@@ -129,7 +133,7 @@ services:
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@common-postgres:5432/supabase
       - STORAGE_BACKEND=file
       - FILE_SIZE_LIMIT=52428800
-      - STORAGE_FILE_PATH=/var/lib/storage
+      - FILE_STORAGE_BACKEND_PATH=/var/lib/storage
       - TENANT_ID=stub
       - REGION=stub
       - GLOBAL_S3_BUCKET=stub

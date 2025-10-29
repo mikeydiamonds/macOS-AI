@@ -16,6 +16,7 @@ services:
       - N8N_PORT=5678
       - WEBHOOK_URL=${WEBHOOK_URL}
       - N8N_PROTOCOL=http
+      - N8N_SECURE_COOKIE=${N8N_SECURE_COOKIE}
 
       # Timezone
       - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}

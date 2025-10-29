@@ -2,7 +2,7 @@ services:
   # Open WebUI - Chat Interface for Ollama
   # Accessible at chat.localhost
   open-webui:
-    image: ghcr.io/open-webui/open-webui:latest
+    image: dyrnq/open-webui:latest
     container_name: open-webui
     restart: unless-stopped
     networks:
@@ -20,8 +20,10 @@ services:
 
       # RAG with Qdrant vector database (optional)
       - ENABLE_RAG_LOCAL_WEB_FETCH=${ENABLE_RAG_LOCAL_WEB_FETCH:-false}
-      - VECTOR_DB=${VECTOR_DB:-}
-      - QDRANT_URL=${QDRANT_URL:-}
+      # VECTOR_DB and QDRANT_URL are commented out by default
+      # Uncomment and configure in .env to enable Qdrant integration
+      # - VECTOR_DB=${VECTOR_DB}
+      # - QDRANT_URL=${QDRANT_URL}
 
       # Authentication disabled (local-only setup)
       - WEBUI_AUTH=${WEBUI_AUTH}
