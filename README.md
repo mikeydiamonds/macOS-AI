@@ -59,16 +59,25 @@ Now get ready to automate your world, and grab a cup of coffee, the first run ta
 
 ### 7. Access the Applications
 
- Chat Interface:       http://chat.localhost                  🤖
- Search Engine:        http://searxng.localhost               🔍
- Firecrawl:            http://firecrawl.localhost             🕷️
- Crawl4ai:             http://crawl4ai.localhost/playground/  🕸️
- Docling:              http://docling.localhost/ui/           📄
- n8n Workflows:        http://n8n.localhost                   🔄
- Qdrant:               http://qdrant.localhost/dashboard      🗄️
- Scriberr:             http://scriberr.localhost              🎙️  **testing**
- Supabase Studio:      http://supabase.localhost              🗃️  **testing**
- Traefik Dashboard:    http://traefik.localhost               🚦
+Chat Interface:       http://chat.localhost                  🤖
+
+Search Engine:        http://searxng.localhost               🔍
+
+Firecrawl:            http://firecrawl.localhost             🕷️
+
+Crawl4ai:             http://crawl4ai.localhost/playground/  🕸️
+
+Docling:              http://docling.localhost/ui/           📄
+
+n8n Workflows:        http://n8n.localhost                   🔄
+
+Qdrant:               http://qdrant.localhost/dashboard      🗄️
+
+Scriberr:             http://scriberr.localhost              🎙️  **testing**
+
+Supabase Studio:      http://supabase.localhost              🗃️  **testing**
+
+Traefik Dashboard:    http://traefik.localhost               🚦
 
 ## Additional Information
 
